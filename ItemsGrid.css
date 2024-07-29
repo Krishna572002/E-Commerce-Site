@@ -1,5 +1,6 @@
 .main-block{
     margin-top: 60px;
+    font-family: Roboto;
 }
 
 .items-grid{
@@ -30,6 +31,7 @@
         }
 
         .item-name{
+            font-weight: 400;
             height: 40px;
             margin-bottom: 5px;
             overflow: hidden;
@@ -53,6 +55,53 @@
                 cursor: pointer;
                 margin-top: 3px;
             }
+        }
+
+        .item-price{
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .item-added{
+            color: rgb(6, 125, 98);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            opacity: 0;
+            
+            img{
+                height: 20px;
+                margin-right: 5px;
+            }
+        }
+
+        .item-quantity{
+            margin-bottom: 17px;
+            
+            select{
+                cursor: pointer;
+                font-size: 15px;
+                width: 50px;
+                padding: 3px;
+                border: 1px solid rgb(179, 177, 177);
+                border-radius: 5px;
+                background-color: rgb(246, 242, 242);
+            }
+
+        }
+
+        .add-to-cart-btn{
+            cursor: pointer;
+            border: none;
+            background-color: rgb(255, 230, 0);
+            width: 100%;
+            padding: 8px;
+            border-radius: 50px;
+        }
+
+        .add-to-cart-btn:hover{
+            background-color: rgba(255, 230, 0, 0.735);
         }
 
     }
