@@ -170,29 +170,3 @@ body{
 
 }
 
-
-.item-section{
-    margin-top: 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    overflow: hidden;
-
-    .item-block{
-        height: 480px;
-        background-color: aqua;
-        border-color: rgb(192, 192, 192);
-        border: solid;
-        border-width: 1px;
-        margin-right: -1px;
-
-        .image-block{
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            img{
-                width: 75%;
-            }
-        }
-    }
-}
