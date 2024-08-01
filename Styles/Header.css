@@ -137,11 +137,7 @@ body{
     }
 }
 
-/* @media (min-width: 0px) and (max-width: 700px) {
-    input{
-        width: 10px;
-    }
-} */
+
 @media (min-width: 576px){
     .mobile-logo{
         display:none;
@@ -164,7 +160,7 @@ body{
         display: none;
     }
 
-    .returns, .orders{
+    .orders{
         display: none;
     }
 

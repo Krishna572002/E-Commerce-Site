@@ -14,7 +14,7 @@ items.forEach((item) => {
                     <div class="rating-quantity">${item.rating.count}</div>
                 </div>
                 <div class="item-price">
-                    $${(item.priceCents/100).toFixed(2)}
+                    &#8377;${((item.priceCents/100)*80).toFixed(2)}
                 </div>
                 <div class="item-quantity">
                     <select>
@@ -37,9 +37,43 @@ items.forEach((item) => {
                     <img src="Images/checkmark.png">
                     Added
                 </div>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <button class="add-to-cart-btn add-to-cart-js" data-item-id="${item.id}">Add to Cart</button>
             </div>`;
 })
 
 const ItemGridElement = document.querySelector('.items-grid');
 ItemGridElement.innerHTML = MainBodyhtml; 
+
+const CartQuantityElement = document.querySelector('.cart-quantity-js');
+
+const buttonElements = document.querySelectorAll('.add-to-cart-js');
+buttonElements.forEach((item) => {
+    item.addEventListener('click', () => {
+        itemId = item.dataset.itemId;
+
+        let existingItem;
+        cart.forEach((item) => {
+            if(item.Id === itemId){
+                existingItem = item;
+            }
+        })
+
+        if(existingItem){
+            existingItem.quantity += 1;
+        }else{
+            cart.push({
+                Id : itemId,
+                quantity : 1
+            })
+        }
+
+        let totalCartItems = 0;
+        cart.forEach((item) => {
+            totalCartItems += item.quantity;
+        })
+
+        CartQuantityElement.innerHTML = totalCartItems;
+    })
+})
+
+
