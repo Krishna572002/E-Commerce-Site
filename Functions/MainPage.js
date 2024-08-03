@@ -47,32 +47,25 @@ ItemGridElement.innerHTML = MainBodyhtml;
 const CartQuantityElement = document.querySelector('.cart-quantity-js');
 
 const buttonElements = document.querySelectorAll('.add-to-cart-js');
+
+
+
+function updateCartQuantity(){
+    let totalCartItems = 0;
+    cart.forEach((item) => {
+        totalCartItems += item.quantity;
+    })
+    CartQuantityElement.innerHTML = totalCartItems;
+}
+
+
+
 buttonElements.forEach((item) => {
     item.addEventListener('click', () => {
         itemId = item.dataset.itemId;
 
-        let existingItem;
-        cart.forEach((item) => {
-            if(item.Id === itemId){
-                existingItem = item;
-            }
-        })
-
-        if(existingItem){
-            existingItem.quantity += 1;
-        }else{
-            cart.push({
-                Id : itemId,
-                quantity : 1
-            })
-        }
-
-        let totalCartItems = 0;
-        cart.forEach((item) => {
-            totalCartItems += item.quantity;
-        })
-
-        CartQuantityElement.innerHTML = totalCartItems;
+        addtocart(itemId);
+        updateCartQuantity();
     })
 })
 

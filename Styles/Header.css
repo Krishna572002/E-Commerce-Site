@@ -137,6 +137,10 @@ body{
     }
 }
 
+.anchor-element{
+    text-decoration: none;
+}
+
 
 @media (min-width: 576px){
     .mobile-logo{
