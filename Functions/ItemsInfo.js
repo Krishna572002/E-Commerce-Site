@@ -1,3 +1,21 @@
+const deliveryOptions  =[
+  {
+    id : '1',
+    deliveryDays : 7,
+    price : 0
+  },
+  {
+    id : '2',
+    deliveryDays : 3,
+    price : 499
+  },
+  {
+    id : '3',
+    deliveryDays : 1,
+    price : 999
+  }
+]
+
 const items = [
     {
       id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
