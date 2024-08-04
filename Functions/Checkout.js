@@ -100,3 +100,7 @@ document.querySelectorAll('.delete-item-js').forEach((item) => {
         containerEl.remove();
     })
 })
+
+let cartCountEl = document.querySelector('.checkout-cartcount-js');
+const total = updateCartQuantity();
+cartCountEl.innerHTML = `${total} items`;

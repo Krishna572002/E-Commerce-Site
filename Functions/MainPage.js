@@ -48,15 +48,10 @@ const CartQuantityElement = document.querySelector('.cart-quantity-js');
 
 const buttonElements = document.querySelectorAll('.add-to-cart-js');
 
-
-
-function updateCartQuantity(){
-    let totalCartItems = 0;
-    cart.forEach((item) => {
-        totalCartItems += item.quantity;
-    })
-    CartQuantityElement.innerHTML = totalCartItems;
+if(updateCartQuantity() != 0){
+    CartQuantityElement.innerHTML = updateCartQuantity();
 }
+
 
 
 
@@ -65,7 +60,7 @@ buttonElements.forEach((item) => {
         itemId = item.dataset.itemId;
 
         addtocart(itemId);
-        updateCartQuantity();
+        CartQuantityElement.innerHTML = updateCartQuantity();
     })
 })
 

@@ -1,14 +1,9 @@
 let cart = JSON.parse(localStorage.getItem('cart'));
 
 if(!cart){
-    cart = [{
-        Id : "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-        quantity : 2
-    },{
-        Id : "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-        quantity : 1
-    }];
+    cart = [];
 }
+
 
 
 function saveToStorage() {
@@ -31,8 +26,10 @@ function addtocart(itemId){
             quantity : 1
         })
     }
+
     saveToStorage();
 }
+
 
 function deleteFromCart(itemid){
     let newCart = [];
@@ -44,5 +41,25 @@ function deleteFromCart(itemid){
     });
 
     cart = newCart;
+    const total = updateCartQuantity();
+    cartCountEl.innerHTML = `${total} items`;
     saveToStorage();
+}
+
+let cartEl = document.querySelector('.cart-quantity-js');
+
+function updateCartQuantity(){
+    let totalCartItems = 0;
+    cart.forEach((item) => {
+        totalCartItems += item.quantity;
+    });
+    if(totalCartItems >= 10){
+        if(cartEl){
+            document.querySelector('.cart-quantity-js').classList.add('cart-quantity-high');
+            document.querySelector('.cart-quantity-js').classList.remove('cart-quantity');   
+        }
+    }
+
+    
+    return totalCartItems;
 }
