@@ -42,7 +42,7 @@ function addtocart(itemId){
     saveToStorage();
 }
 
-
+const cartCountEl = document.querySelector('.checkout-cartcount-js');
 function deleteFromCart(itemid){
     let newCart = [];
     
@@ -74,4 +74,17 @@ function updateCartQuantity(){
 
     
     return totalCartItems;
+}
+
+
+function updateDeliveryOption(productId, deliveryOptionId){
+    let existingItem;
+    cart.forEach((item) => {
+        if(item.Id === productId){
+            existingItem = item;
+        }
+    })
+
+    existingItem.deliveryOptionid = deliveryOptionId;
+    saveToStorage();
 }

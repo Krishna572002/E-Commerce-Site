@@ -4,7 +4,9 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 // const deliveryDate = today.add(7, 'days');
 // console.log(deliveryDate.format('dddd, MMMM D'));
 
-let checkoutHtml = '';
+
+function renderOrderSummary() {
+  let checkoutHtml = '';
 
 
 cart.forEach((cartItem) =>{
@@ -16,9 +18,20 @@ cart.forEach((cartItem) =>{
         }
     })
 
+    let deliveryOption;
+    deliveryOptions.forEach((eachDelivery) => {
+      if(eachDelivery.id === cartItem.deliveryOptionid){
+        deliveryOption = eachDelivery;
+      }
+    })
+
+    const today = dayjs();
+    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
+    const datestring = deliveryDate.format('dddd, MMMM D');
+
     checkoutHtml += `<div class="cart-item-container container-js-${matchingItem.id}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery Date: ${datestring}
             </div>
 
             <div class="cart-item-details-grid">
@@ -50,7 +63,7 @@ cart.forEach((cartItem) =>{
                   Choose a delivery option:
                 </div>
                 
-                ${deliveryOptionsHtml(matchingItem)}
+                ${deliveryOptionsHtml(matchingItem, cartItem)}
                 
               </div>
             </div>
@@ -58,7 +71,7 @@ cart.forEach((cartItem) =>{
 });
 
 
-function deliveryOptionsHtml(matchingItem){
+function deliveryOptionsHtml(matchingItem, item){
   let selectDeliverHtml = '';
   deliveryOptions.forEach((eachDelivery) => {
     const today = dayjs();
@@ -72,10 +85,10 @@ function deliveryOptionsHtml(matchingItem){
       pricetaghtml = `&#8377;${((pricetag/100)*80).toFixed(2)} -`
     }
 
-
+    const ischecked = eachDelivery.id === item.deliveryOptionid;
     selectDeliverHtml +=`
-      <div class="delivery-option">
-        <input type="radio"
+      <div class="delivery-option js-delivery-option" data-product-id = "${matchingItem.id}" data-delivery-option-id = ${eachDelivery.id}>
+        <input type="radio" ${ischecked ? "checked" : ""}
           class="delivery-option-input"
           name="delivery-option-${matchingItem.id}">
         <div>
@@ -99,6 +112,7 @@ document.querySelectorAll('.delete-item-js').forEach((item) => {
     const itemId = item.dataset.itemId;
     item.addEventListener('click', () =>{
         deleteFromCart(itemId);
+        console.log("deleted");
         
         const containerEl = document.querySelector(`.container-js-${itemId}`);
         containerEl.remove();
@@ -108,3 +122,14 @@ document.querySelectorAll('.delete-item-js').forEach((item) => {
 let cartCountEl = document.querySelector('.checkout-cartcount-js');
 const total = updateCartQuantity();
 cartCountEl.innerHTML = `${total} items`;
+
+document.querySelectorAll('.js-delivery-option').forEach((element) => {
+  element.addEventListener('click', () =>{
+    const {productId, deliveryOptionId} = element.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
+    renderOrderSummary();
+  })
+})
+}
+
+renderOrderSummary();
