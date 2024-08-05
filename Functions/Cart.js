@@ -134,7 +134,7 @@ function renderPaymentSummay() {
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div>Items (${updateCartQuantity()}):</div>
             <div class="payment-summary-money">&#8377;${productPrice.toFixed(2)}</div>
           </div>
 
