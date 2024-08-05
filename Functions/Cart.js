@@ -21,6 +21,26 @@ function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+function getProduct(itemId){
+    let existingItem;
+    items.forEach((item) => {
+        if(item.id === itemId){
+            existingItem = item;
+        }
+    })
+    return existingItem;
+}
+
+function getDeliveryOption(id){
+    let deliveryMatched;
+    deliveryOptions.forEach((eachdelivery) => {
+        if(eachdelivery.id === id){
+            deliveryMatched = eachdelivery;
+        }
+    })
+    return deliveryMatched || deliveryOptions[0];
+}
+
 function addtocart(itemId){
     let existingItem;
     cart.forEach((item) => {
@@ -77,7 +97,7 @@ function updateCartQuantity(){
 }
 
 
-function updateDeliveryOption(productId, deliveryOptionId){
+function updateDeliveryOption(productId, deliveryOptionid){
     let existingItem;
     cart.forEach((item) => {
         if(item.Id === productId){
@@ -85,6 +105,64 @@ function updateDeliveryOption(productId, deliveryOptionId){
         }
     })
 
-    existingItem.deliveryOptionid = deliveryOptionId;
+    existingItem.deliveryOptionid = deliveryOptionid;
     saveToStorage();
 }
+
+
+
+function renderPaymentSummay() {
+    let productPrice = 0;
+    let shippingCost = 0;
+    cart.forEach((element) =>{
+        const product = getProduct(element.Id)
+        let price = ((product.priceCents/100)*80).toFixed(2) * element.quantity;
+        productPrice += price;
+        let eachDelivery = getDeliveryOption(element.deliveryOptionid);
+        shippingCost += eachDelivery.price;
+    })
+    shippingCost = ((shippingCost/100)*80).toFixed(2);
+    const totalBeforeTax = (productPrice + Number(shippingCost)).toFixed(2);
+    let totalAfterTax = Number(totalBeforeTax) * 0.1;
+    totalAfterTax = totalAfterTax.toFixed(2);
+    const total = Number(totalAfterTax) + Number(totalBeforeTax)
+
+    const paymentHtml = 
+    `
+        <div class="payment-summary-title">
+            Order Summary
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Items (3):</div>
+            <div class="payment-summary-money">&#8377;${productPrice.toFixed(2)}</div>
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Shipping &amp; handling:</div>
+            <div class="payment-summary-money">&#8377;${shippingCost}</div>
+          </div>
+
+          <div class="payment-summary-row subtotal-row">
+            <div>Total before tax:</div>
+            <div class="payment-summary-money">&#8377;${totalBeforeTax}</div>
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Estimated tax (10%):</div>
+            <div class="payment-summary-money">&#8377;${totalAfterTax}</div>
+          </div>
+
+          <div class="payment-summary-row total-row">
+            <div>Order total:</div>
+            <div class="payment-summary-money">&#8377;${total.toFixed(2)}</div>
+          </div>
+
+          <button class="place-order-button button-primary">
+            Place your order
+          </button>
+    `
+
+    document.querySelector('.payment-summary-js').innerHTML = paymentHtml;
+}
+

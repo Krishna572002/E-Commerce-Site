@@ -112,7 +112,7 @@ document.querySelectorAll('.delete-item-js').forEach((item) => {
     const itemId = item.dataset.itemId;
     item.addEventListener('click', () =>{
         deleteFromCart(itemId);
-        console.log("deleted");
+        renderPaymentSummay();
         
         const containerEl = document.querySelector(`.container-js-${itemId}`);
         containerEl.remove();
@@ -127,9 +127,11 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
   element.addEventListener('click', () =>{
     const {productId, deliveryOptionId} = element.dataset;
     updateDeliveryOption(productId, deliveryOptionId);
+    renderPaymentSummay();
     renderOrderSummary();
   })
 })
 }
 
 renderOrderSummary();
+renderPaymentSummay();
