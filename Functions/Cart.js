@@ -1,4 +1,8 @@
+
+
 let cart = JSON.parse(localStorage.getItem('cart'));
+
+let ordersCart = [];
 
 if(!cart){
     cart = [
@@ -125,7 +129,7 @@ function renderPaymentSummay() {
     const totalBeforeTax = (productPrice + Number(shippingCost)).toFixed(2);
     let totalAfterTax = Number(totalBeforeTax) * 0.1;
     totalAfterTax = totalAfterTax.toFixed(2);
-    const total = Number(totalAfterTax) + Number(totalBeforeTax)
+    const total = (Number(totalAfterTax) + Number(totalBeforeTax)).toFixed(2);
 
     const paymentHtml = 
     `
@@ -155,14 +159,91 @@ function renderPaymentSummay() {
 
           <div class="payment-summary-row total-row">
             <div>Order total:</div>
-            <div class="payment-summary-money">&#8377;${total.toFixed(2)}</div>
+            <div class="payment-summary-money">&#8377;${total}</div>
           </div>
 
-          <button class="place-order-button button-primary">
-            Place your order
-          </button>
+        
+            <button onclick="generateOrdersPage(${total})" class="place-order-button button-primary">
+                Place your order
+            </button>
+        
+          
     `
 
     document.querySelector('.payment-summary-js').innerHTML = paymentHtml;
 }
+
+function findDate(add){
+    const today = new Date();
+
+    // Add the specified number of days
+    today.setDate(today.getDate() + add);
+
+    // Format the date as "Month Day"
+    const options = { month: 'long', day: 'numeric' };
+    return today.toLocaleDateString('en-US', options);
+}
+
+//Reerender needs to be fixed
+generateOrdersPage(2);
+
+function generateOrdersPage(total) {
+    const temp = {};
+    let orderplaceddate = findDate(0);
+    temp.ordersPlaced = orderplaceddate;
+    temp.orderId = generateRandomId();
+    temp.total = total;
+    let innertemp = [];
+    cart.forEach((each) => {
+        let obj = {};
+        let itemDetails = getDesiredCartItem(each.Id);
+        obj.image = itemDetails.image;
+        obj.name = itemDetails.name;
+        let arrivingon = findArrivingOn(each);
+        obj.arrivingOn = arrivingon;
+        obj.quantity = each.quantity;
+        innertemp.push(obj);
+    })
+    temp.orderitems = innertemp;
+    ordersCart.push(temp);
+    rererender();
+}
+
+
+
+
+function findArrivingOn(cartItem){
+    let daysRemain = 0;
+    deliveryOptions.forEach((each) => {
+        if(each.id === cartItem.deliveryOptionid){
+            daysRemain = each.deliveryDays;
+        }
+    })
+    return findDate(daysRemain);
+}
+
+
+function getDesiredCartItem(itemid) {
+    let desiredItem = null;
+    items.forEach((each) => {
+        if(each.id === itemid){
+            desiredItem = each;
+        }
+    })
+    return desiredItem;
+}
+
+function generateRandomId() {
+    return 'id-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+}
+
+
+
+
+
+
+
+
+
+
 
