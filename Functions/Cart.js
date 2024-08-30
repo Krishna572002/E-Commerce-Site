@@ -1,25 +1,19 @@
 
 
 let cart = JSON.parse(localStorage.getItem('cart'));
+let ordersCart = JSON.parse(localStorage.getItem('orders'));
 
-let ordersCart = [];
-
-if(!cart){
-    cart = [
-        {
-            Id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-            quantity : 2,
-            deliveryOptionid : '1'
-        },
-        {
-            Id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-            quantity : 1,
-            deliveryOptionid : '2'
-        }
-    ];
+if(!ordersCart){
+    ordersCart = [];
 }
 
+if(!cart){
+    cart = [];
+}
 
+function saveOrders(){
+    localStorage.setItem('orders',JSON.stringify(ordersCart));
+}
 
 function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -162,11 +156,11 @@ function renderPaymentSummay() {
             <div class="payment-summary-money">&#8377;${total}</div>
           </div>
 
-        
+        <a href="orders.html">
             <button onclick="generateOrdersPage(${total})" class="place-order-button button-primary">
                 Place your order
             </button>
-        
+        </a>
           
     `
 
@@ -185,7 +179,7 @@ function findDate(add){
 }
 
 //Reerender needs to be fixed
-generateOrdersPage(2);
+
 
 function generateOrdersPage(total) {
     const temp = {};
@@ -206,7 +200,7 @@ function generateOrdersPage(total) {
     })
     temp.orderitems = innertemp;
     ordersCart.push(temp);
-    rererender();
+    saveOrders()
 }
 
 

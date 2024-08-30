@@ -15,6 +15,12 @@
     font-size: 26px;
     margin-bottom: 25px;
   }
+
+  .orders-button{
+    border-radius: 5px;
+    padding: 10px;
+    border: solid;
+  }
   
   .orders-grid {
     display: grid;
