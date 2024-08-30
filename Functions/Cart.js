@@ -156,8 +156,8 @@ function renderPaymentSummay() {
             <div class="payment-summary-money">&#8377;${total}</div>
           </div>
 
-        <a href="orders.html">
-            <button onclick="generateOrdersPage(${total})" class="place-order-button button-primary">
+        <a ${cart.length && 'href="orders.html"'}>
+            <button onclick="generateOrdersPage(${total})" class="place-order-button  button-primary">
                 Place your order
             </button>
         </a>
@@ -182,26 +182,34 @@ function findDate(add){
 
 
 function generateOrdersPage(total) {
-    const temp = {};
-    let orderplaceddate = findDate(0);
-    temp.ordersPlaced = orderplaceddate;
-    temp.orderId = generateRandomId();
-    temp.total = total;
-    let innertemp = [];
-    cart.forEach((each) => {
-        let obj = {};
-        let itemDetails = getDesiredCartItem(each.Id);
-        obj.image = itemDetails.image;
-        obj.name = itemDetails.name;
-        let arrivingon = findArrivingOn(each);
-        obj.arrivingOn = arrivingon;
-        obj.quantity = each.quantity;
-        innertemp.push(obj);
-    })
-    temp.orderitems = innertemp;
-    ordersCart.push(temp);
-    saveOrders()
+    if(cart.length != 0){
+        const temp = {};
+        let orderplaceddate = findDate(0);
+        temp.ordersPlaced = orderplaceddate;
+        temp.orderId = generateRandomId();
+        temp.total = total;
+        let innertemp = [];
+        cart.forEach((each) => {
+            let obj = {};
+            let itemDetails = getDesiredCartItem(each.Id);
+            obj.image = itemDetails.image;
+            obj.name = itemDetails.name;
+            let arrivingon = findArrivingOn(each);
+            obj.arrivingOn = arrivingon;
+            obj.quantity = each.quantity;
+            innertemp.push(obj);
+        })
+        temp.orderitems = innertemp;
+        ordersCart.push(temp);
+        saveOrders()
+        console.log(ordersCart);
+        cart = [];
+        saveToStorage();
+    }else{
+        alert("Cart is Empty!");
+    }
 }
+
 
 
 

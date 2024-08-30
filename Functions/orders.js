@@ -12,11 +12,19 @@ getProductsButton.addEventListener('click', () => {
 })
 
 
+
+
+
+let cartquantityElement = document.querySelector(".cart-quantity-js")
+cartquantityElement.innerHTML = updateCartQuantity();
+
+
 function rererender(){
   let ordersGridElement = document.querySelector(".orders-grid");
   let totalOrderhtml = "";
 
   ordersCart.forEach((each) => {
+    if(generateEachProduct(each.orderitems) != ""){
       totalOrderhtml += `
           <div class="order-container">
 
@@ -42,7 +50,7 @@ function rererender(){
               ${generateEachProduct(each.orderitems)}
             </div>
           </div>
-      `
+      `}
   })
   ordersGridElement.innerHTML = totalOrderhtml;
 }
@@ -52,12 +60,18 @@ function rererender(){
 rererender();
 
 
+function parseDate(dateStr) {
+  return new Date(`2024 ${dateStr}`);
+}
+
+
 
 
 
 function generateEachProduct(obj){
     let eachOrderHtml = "";
     obj.forEach((each) => {
+      if(parseDate(findDate(0)) <= parseDate(each.arrivingOn)){
         eachOrderHtml += `
             <div class="product-image-container">
                 <img src=${each.image}>
@@ -79,7 +93,7 @@ function generateEachProduct(obj){
             <div class="product-actions">
                 
             </div>
-        `
+        `}
     })
     return eachOrderHtml;
 }
