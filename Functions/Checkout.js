@@ -3,7 +3,8 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 // const today = dayjs();
 // const deliveryDate = today.add(7, 'days');
 // console.log(deliveryDate.format('dddd, MMMM D'));
-
+renderOrderSummary();
+renderPaymentSummay();
 
 function renderOrderSummary() {
   let checkoutHtml = '';
@@ -49,7 +50,7 @@ cart.forEach((cartItem) =>{
                   <span>
                     Quantity: <span class="quantity-label">${cartItem.quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link update-quantity-js link-primary">
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary delete-item-js" data-item-id="${matchingItem.id}">
@@ -69,6 +70,9 @@ cart.forEach((cartItem) =>{
             </div>
           </div>`;
 });
+
+
+
 
 
 function deliveryOptionsHtml(matchingItem, item){
@@ -133,5 +137,3 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
 })
 }
 
-renderOrderSummary();
-renderPaymentSummay();

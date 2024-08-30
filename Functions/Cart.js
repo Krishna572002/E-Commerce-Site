@@ -39,7 +39,7 @@ function getDeliveryOption(id){
     return deliveryMatched || deliveryOptions[0];
 }
 
-function addtocart(itemId){
+function addtocart(itemId, quantity){
     let existingItem;
     cart.forEach((item) => {
         if(item.Id === itemId){
@@ -48,17 +48,19 @@ function addtocart(itemId){
     })
 
     if(existingItem){
-        existingItem.quantity += 1;
+        existingItem.quantity += quantity;
     }else{
         cart.push({
             Id : itemId,
-            quantity : 1,
+            quantity : quantity,
             deliveryOptionid : '1'
         })
     }
 
     saveToStorage();
 }
+
+
 
 const cartCountEl = document.querySelector('.checkout-cartcount-js');
 function deleteFromCart(itemid){
